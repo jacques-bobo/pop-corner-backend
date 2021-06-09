@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 08 juin 2021 à 01:35
+-- Généré le :  mer. 09 juin 2021 à 02:37
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `city` int(11) NOT NULL,
   `vegetarian` tinyint(1) NOT NULL,
   PRIMARY KEY (`customerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `customers`
@@ -47,7 +47,8 @@ INSERT INTO `customers` (`customerID`, `username`, `email`, `password`, `city`, 
 (1, 'jacques', 'jacquesbonnand@yahoo.fr', '1234', 92190, 1),
 (2, 'paul', 'test@gmail.com', '1234', 92190, 0),
 (3, 'luc', 'bob@gmail.com', '1234', 44000, 0),
-(4, 'jaco', 'jacquesbonnand@yahoo.fr', '1234', 92190, 0);
+(4, 'jaco', 'jacquesbonnand@jl.fr', '1234', 92190, 0),
+(5, 'francois', 'jac@do.fr', '1234', 75015, 1);
 
 -- --------------------------------------------------------
 
@@ -70,8 +71,6 @@ CREATE TABLE IF NOT EXISTS `customer_popcorn` (
 --
 
 INSERT INTO `customer_popcorn` (`customerID`, `popcornID`, `id`) VALUES
-(1, 1, 1),
-(3, 1, 4),
 (1, 16, 18),
 (4, 16, 19);
 
@@ -89,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `partners` (
   `password` text COLLATE utf8_bin NOT NULL,
   `city` int(11) NOT NULL,
   PRIMARY KEY (`partnerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `partners`
@@ -97,7 +96,8 @@ CREATE TABLE IF NOT EXISTS `partners` (
 
 INSERT INTO `partners` (`partnerID`, `username`, `email`, `password`, `city`) VALUES
 (1, 'Au bon petit pain', 'jacquesbonnand92@gmail.com', '1234', 92190),
-(2, 'Kebab 15e', 'kab@gmail.com', '1234', 75015);
+(2, 'Kebab 15e', 'kab@gmail.com', '1234', 75015),
+(3, 'Boulangerie Jaco', 'bolange@yahoo.fr', '1234', 92190);
 
 -- --------------------------------------------------------
 
