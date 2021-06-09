@@ -49,9 +49,40 @@ async function insertPartner(username, email, password, city){
   }
 }
 
+async function authenticate(email, password){ 
+  const partners = await db.query(
+    "SELECT * FROM partners WHERE email = ?", [email]);
+  
+  if(partners.length != 0){
+    let partner = partners[0];
+
+    if(partner.password == password){
+      delete partner["password"];
+      return {
+        email_exists: true,
+        password_matches: true,
+        partner
+      }
+    }
+    else {
+      return {
+        email_exists: true,
+        password_matches: false
+      }
+    }
+  }
+  else {
+    return {
+      email_exists: false,
+      password_matches: false
+    }
+  }
+}
+
 module.exports = {
   getMultiple,
   getPartner,
   getPartnerCity,
-  insertPartner
+  insertPartner,
+  authenticate
 }

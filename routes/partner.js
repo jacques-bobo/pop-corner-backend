@@ -50,5 +50,17 @@ router.get('/insert', async function(req, res) {
   }
 });
 
+// Authenticate partner
+router.get('/authenticate', async function(req, res) {
+  var email = req.query.email;
+  var password = req.query.password;
+  try {
+    res.json(await partner_service.authenticate(email, password));
+  } catch (err) {
+    console.error(`Error while authenticating this partner `, err.message);
+    next(err);
+  }
+});
+
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
+const e = require('express');
 
 async function getMultiple(page = 1){
   const offset = helper.getOffset(page, config.listPerPage);
@@ -28,7 +29,7 @@ async function getCustomer(customerID){
   }
 }
 
-async function getCustomerCity(city){ 
+async function getCustomersByCity(city){ 
   const data = await db.query(
     "SELECT * FROM customers WHERE city = ?",
     [city]);
@@ -50,9 +51,40 @@ async function insertCustomer(username, email, password, city, vegetarian){
   }
 }
 
+async function authenticate(email, password){ 
+  const customers = await db.query(
+    "SELECT * FROM customers WHERE email = ?", [email]);
+  
+  if(customers.length != 0){
+    let customer = customers[0];
+
+    if(customer.password == password){
+      delete customer["password"];
+      return {
+        email_exists: true,
+        password_matches: true,
+        customer
+      }
+    }
+    else {
+      return {
+        email_exists: true,
+        password_matches: false
+      }
+    }
+  }
+  else {
+    return {
+      email_exists: false,
+      password_matches: false
+    }
+  }
+}
+
 module.exports = {
   getMultiple,
   getCustomer,
-  getCustomerCity,
-  insertCustomer
+  getCustomersByCity,
+  insertCustomer,
+  authenticate
 }

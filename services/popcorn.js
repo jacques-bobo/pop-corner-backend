@@ -66,7 +66,7 @@ async function sendEmailsToCustomers(name, type, nb_customers, description, part
   //await helper.sendEmail("jacquesbonnand@yahoo.fr", 3, 5);
   const partner = await db.query(
     `SELECT * FROM partners WHERE partnerID = ` + partnerID );
-  const customers = await customer.getCustomerCity(partner[0].city);
+  const customers = await customer.getCustomersByCity(partner[0].city);
   
   customers_shuffled_list = await helper.shuffle(customers.data);
 

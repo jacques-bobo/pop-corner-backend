@@ -29,7 +29,7 @@ router.get('/', async function(req, res) {
 router.get('/get_from_city', async function(req, res) {
   var city = req.query.city;
   try {
-    res.json(await db_manager.getCustomerCity(city));
+    res.json(await db_manager.getCustomersByCity(city));
   } catch (err) {
     console.error(`Error while getting these customers `, err.message);
     next(err);
@@ -47,6 +47,18 @@ router.get('/insert', async function(req, res) {
     res.json(await db_manager.insertCustomer(username, email, password, city, vegetarian));
   } catch (err) {
     console.error(`Error while getting these customers `, err.message);
+    next(err);
+  }
+});
+
+// Authenticate customer
+router.get('/authenticate', async function(req, res) {
+  var email = req.query.email;
+  var password = req.query.password;
+  try {
+    res.json(await db_manager.authenticate(email, password));
+  } catch (err) {
+    console.error(`Error while authenticating this customer `, err.message);
     next(err);
   }
 });
