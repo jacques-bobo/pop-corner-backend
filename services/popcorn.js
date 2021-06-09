@@ -20,7 +20,8 @@ async function getMultiple(page = 1){
 
 async function getPopcornFromID(popcornID){ 
   const data = await db.query(
-    `SELECT * FROM popcorns WHERE popcornID = ` + popcornID );
+    `SELECT * FROM popcorns WHERE popcornID = ?`,
+    [popcornID] );
 
   return {
     data
@@ -29,7 +30,8 @@ async function getPopcornFromID(popcornID){
 
 async function getPopcornsFromPartnerID(partnerID){ 
   const data = await db.query(
-    `SELECT * FROM popcorns WHERE partnerID = ` + partnerID );
+    "SELECT * FROM popcorns WHERE partnerID = ?",
+    [partnerID] );
 
   return {
     data
@@ -39,7 +41,8 @@ async function getPopcornsFromPartnerID(partnerID){
 async function getPopcornsFromCustomer(customerID){ 
   const data = await db.query(
     "SELECT p.* FROM customer_popcorn cp JOIN popcorns p ON cp.popcornID = p.popcornID "+
-    "WHERE cp.customerID = "+ customerID);
+    "WHERE cp.customerID = ?",
+    [customerID]);
 
   return {
     data
@@ -48,10 +51,10 @@ async function getPopcornsFromCustomer(customerID){
 
 async function addPopcorn(name, type, nb_customers, description, partnerID){ 
   
-  //await helper.sendEmail("jacquesbonnand@yahoo.fr", 3, 5);
   const data = await db.query(
     "INSERT INTO popcorns (`popcornID`, `name`, `type`, `nb_customers`, `description`, `partnerID`) "
-    + "VALUES (NULL, " + name + ", " + type + ", " + nb_customers + ", " + description + ", " + partnerID + ")");
+    + "VALUES (NULL, ?, ?, ?, ?, ?)",
+    [name, type, nb_customers, description, partnerID] );
 
   resultSendEmails = await sendEmailsToCustomers(name, type, nb_customers, description, partnerID, data.insertId);
   return {
@@ -94,7 +97,8 @@ async function sendEmailsToCustomers(name, type, nb_customers, description, part
 
 async function incrementNbCustomers(popcornID){ 
   const data = await db.query(
-    "UPDATE popcorns SET nb_customers = nb_customers + 1 WHERE popcornID = "+ popcornID);
+    "UPDATE popcorns SET nb_customers = nb_customers + 1 WHERE popcornID = ?",
+    [popcornID] );
 
   return {
     data
@@ -103,7 +107,8 @@ async function incrementNbCustomers(popcornID){
 
 async function resetNbCustomers(popcornID){ 
   const data = await db.query(
-    "UPDATE popcorns SET nb_customers = 0 WHERE popcornID = "+ popcornID);
+    "UPDATE popcorns SET nb_customers = 0 WHERE popcornID = ?",
+    [popcornID] );
 
   return {
     data
@@ -112,7 +117,8 @@ async function resetNbCustomers(popcornID){
 
 async function deletePopCorn(popcornID){ 
   const data = await db.query(
-    "DELETE FROM `popcorns` WHERE `popcorns`.`popcornID` = "+ popcornID +";");
+    "DELETE FROM `popcorns` WHERE `popcorns`.`popcornID` = ?",
+      [popcornID] );
 
   return {
     data
@@ -130,7 +136,8 @@ async function addCustomer(customerID, popcornID){
   console.log(customer_popcorns)
   
   const data = await db.query(
-    "INSERT INTO customer_popcorn (`customerID`, `popcornID`, `id`) VALUES (" + customerID + ", " + popcornID + ", NULL); ");
+    "INSERT INTO customer_popcorn (`customerID`, `popcornID`, `id`) VALUES (?, ?, NULL);",
+     [customerID, popcornID] );
 
   await incrementNbCustomers(popcornID)
   return {

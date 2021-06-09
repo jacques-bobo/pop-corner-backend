@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const customerRouter = require('./routes/customer');
 const popcornRouter = require('./routes/popcorn');
+const partnerRouter = require('./routes/partner');
 
 app.use(bodyParser.json());
 app.use(
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/customer', customerRouter);
 app.use('/popcorn', popcornRouter);
+app.use('/partner', partnerRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

@@ -36,6 +36,20 @@ router.get('/get_from_city', async function(req, res) {
   }
 });
 
+// Add customer
+router.get('/insert', async function(req, res) {
+  var username = req.query.username;
+  var email = req.query.email;
+  var password = req.query.password;
+  var city = req.query.city;
+  var vegetarian = req.query.vegetarian;
+  try {
+    res.json(await db_manager.insertCustomer(username, email, password, city, vegetarian));
+  } catch (err) {
+    console.error(`Error while getting these customers `, err.message);
+    next(err);
+  }
+});
 
 
 module.exports = router;

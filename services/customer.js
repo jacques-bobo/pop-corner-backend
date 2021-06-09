@@ -20,7 +20,8 @@ async function getMultiple(page = 1){
 
 async function getCustomer(customerID){ 
   const data = await db.query(
-    `SELECT * FROM customers WHERE customerID = ` + customerID );
+    "SELECT * FROM customers WHERE customerID = ?",
+    [customerID] );
 
   return {
     data
@@ -29,7 +30,20 @@ async function getCustomer(customerID){
 
 async function getCustomerCity(city){ 
   const data = await db.query(
-    `SELECT * FROM customers WHERE city = ` + city );
+    "SELECT * FROM customers WHERE city = ?",
+    [city]);
+
+  return {
+    data
+  }
+}
+
+async function insertCustomer(username, email, password, city, vegetarian){ 
+  
+  const data = await db.query(
+    "INSERT INTO customers (`customerID`, `username`, `email`, `password`, `city`, `vegetarian`) "
+    + "VALUES (NULL, ?, ?, ?, ?, ? )",
+    [username, email, password, city, vegetarian]);
 
   return {
     data
@@ -39,5 +53,6 @@ async function getCustomerCity(city){
 module.exports = {
   getMultiple,
   getCustomer,
-  getCustomerCity
+  getCustomerCity,
+  insertCustomer
 }
