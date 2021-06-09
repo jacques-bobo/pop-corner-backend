@@ -44,7 +44,7 @@ node index.js
 ## 7) Access and test the API
 - url : http://localhost:3000/
 
-## Documentation :
+## API Documentation :
 - https://documenter.getpostman.com/view/13082445/TzY7dtBg
 - It is advised to create and use a Postman account, it helps a lot for API testing purposes
 - Otherwise, you will have to test each path of the API by hand.
