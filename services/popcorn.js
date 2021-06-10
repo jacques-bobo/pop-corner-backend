@@ -49,20 +49,20 @@ async function getPopcornsFromCustomer(customerID){
   }
 }
 
-async function addPopcorn(name, type, nb_customers, description, partnerID){ 
+async function addPopcorn(name, type, nb_remaining, description, partnerID){ 
   
   const data = await db.query(
-    "INSERT INTO popcorns (`popcornID`, `name`, `type`, `nb_customers`, `description`, `partnerID`) "
+    "INSERT INTO popcorns (`popcornID`, `name`, `type`, `nb_remaining`, `description`, `partnerID`) "
     + "VALUES (NULL, ?, ?, ?, ?, ?)",
-    [name, type, nb_customers, description, partnerID] );
+    [name, type, nb_remaining, description, partnerID] );
 
-  resultSendEmails = await sendEmailsToCustomers(name, type, nb_customers, description, partnerID, data.insertId);
+  resultSendEmails = await sendEmailsToCustomers(name, type, nb_remaining, description, partnerID, data.insertId);
   return {
     data,resultSendEmails
   }
 }
 
-async function sendEmailsToCustomers(name, type, nb_customers, description, partnerID, popcornID){ 
+async function sendEmailsToCustomers(name, type, nb_popcorns, description, partnerID, popcornID){ 
   //await helper.sendEmail("jacquesbonnand@yahoo.fr", 3, 5);
   const partner = await db.query(
     `SELECT * FROM partners WHERE partnerID = ` + partnerID );
@@ -71,7 +71,7 @@ async function sendEmailsToCustomers(name, type, nb_customers, description, part
   customers_shuffled_list = await helper.shuffle(customers.data);
 
   // We take the first 10 customers from the shuffled list
-  for (var c of customers_shuffled_list.slice(0,9)){
+  for (var c of customers_shuffled_list.slice(0,nb_popcorns-1)){
     console.log(c.email);
 
     var validation_link = "http://localhost:3000/popcorn/add_customer?"
@@ -91,13 +91,13 @@ async function sendEmailsToCustomers(name, type, nb_customers, description, part
   console.log(customers_shuffled_list);
 
   return {
-    customers_sent_popcorn: customers_shuffled_list.slice(0,9)
+    customers_sent_popcorn: customers_shuffled_list.slice(0,nb_popcorns-1)
   }
 }
 
-async function incrementNbCustomers(popcornID){ 
+async function decrementNbRemaining(popcornID){ 
   const data = await db.query(
-    "UPDATE popcorns SET nb_customers = nb_customers + 1 WHERE popcornID = ?",
+    "UPDATE popcorns SET nb_remaining = nb_remaining - 1 WHERE popcornID = ?",
     [popcornID] );
 
   return {
@@ -105,9 +105,9 @@ async function incrementNbCustomers(popcornID){
   }
 }
 
-async function resetNbCustomers(popcornID){ 
+async function resetNbRemaining(popcornID){ 
   const data = await db.query(
-    "UPDATE popcorns SET nb_customers = 0 WHERE popcornID = ?",
+    "UPDATE popcorns SET nb_remaining = 0 WHERE popcornID = ?",
     [popcornID] );
 
   return {
@@ -133,15 +133,28 @@ async function addCustomer(customerID, popcornID){
       return {"error": "This popcorn has already been added by the customer"}
     }
   }
-  console.log(customer_popcorns)
   
-  const data = await db.query(
-    "INSERT INTO customer_popcorn (`customerID`, `popcornID`, `id`) VALUES (?, ?, NULL);",
-     [customerID, popcornID] );
+  const nb_popcorns_remaining = await db.query(
+    "SELECT nb_remaining FROM popcorns WHERE popcornID = ?",
+    [popcornID]
+  )
+  let nb_popcorns_remaining_int = nb_popcorns_remaining[0].nb_remaining;
+  
+  if (nb_popcorns_remaining_int > 0){
+    const data = await db.query(
+      "INSERT INTO customer_popcorn (`customerID`, `popcornID`, `id`) VALUES (?, ?, NULL);",
+      [customerID, popcornID] );
 
-  await incrementNbCustomers(popcornID)
-  return {
-    data
+    await decrementNbRemaining(popcornID);
+    console.log("Customer "+ customerID +" added to popcorn " +popcornID);
+    return {
+      data
+    }
+  }
+  else {
+    return {
+      error: "No popcorns remaining for this popcorn."
+    }
   }
 }
 
@@ -155,5 +168,5 @@ module.exports = {
   deletePopCorn,
   addCustomer,
   getPopcornsFromCustomer,
-  resetNbCustomers
+  resetNbRemaining
 }

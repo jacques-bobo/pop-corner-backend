@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 09 juin 2021 à 02:37
+-- Généré le :  jeu. 10 juin 2021 à 22:26
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `customer_popcorn` (
   PRIMARY KEY (`id`),
   KEY `customer_midle` (`customerID`),
   KEY `midle_popcorn` (`popcornID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `customer_popcorn`
@@ -72,7 +72,8 @@ CREATE TABLE IF NOT EXISTS `customer_popcorn` (
 
 INSERT INTO `customer_popcorn` (`customerID`, `popcornID`, `id`) VALUES
 (1, 16, 18),
-(4, 16, 19);
+(4, 16, 19),
+(1, 17, 31);
 
 -- --------------------------------------------------------
 
@@ -110,21 +111,22 @@ CREATE TABLE IF NOT EXISTS `popcorns` (
   `popcornID` int(11) NOT NULL AUTO_INCREMENT,
   `name` text COLLATE utf8_bin NOT NULL,
   `type` text COLLATE utf8_bin NOT NULL,
-  `nb_customers` int(11) NOT NULL,
+  `nb_remaining` int(11) NOT NULL,
   `description` text COLLATE utf8_bin NOT NULL,
   `partnerID` int(11) NOT NULL,
   PRIMARY KEY (`popcornID`),
   KEY `partner_popcorn` (`partnerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `popcorns`
 --
 
-INSERT INTO `popcorns` (`popcornID`, `name`, `type`, `nb_customers`, `description`, `partnerID`) VALUES
+INSERT INTO `popcorns` (`popcornID`, `name`, `type`, `nb_remaining`, `description`, `partnerID`) VALUES
 (1, 'free food', 'vegetarian', 0, 'free meal for everyone', 2),
 (15, 'New tacos king gratuit !!', 'tacos', 0, 'This is a new free tacos offer for the first 10 persons to come to our shop !', 1),
-(16, 'New tacos king gratuit !!', 'tacos', 2, 'This is a new free tacos offer for the first 10 persons to come to our shop !', 1);
+(16, 'New tacos king gratuit !!', 'tacos', 2, 'This is a new free tacos offer for the first 10 persons to come to our shop !', 1),
+(17, '\"New tacos king gratuit !!\"', '\"tacos\"', 5, '\"This is a new free tacos offer for the first 10 persons to come to our shop !\"', 1);
 
 --
 -- Contraintes pour les tables déchargées

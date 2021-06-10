@@ -52,11 +52,11 @@ router.get('/get_from_customer', async function(req, res) {
 router.get('/add', async function(req, res) {
   var name = req.query.name;
   var type = req.query.type;
-  var nb_customers = req.query.nb_customers;
+  var nb_popcorns_remaining = req.query.nb_popcorns_remaining;
   var description = req.query.description;  
   var partnerID = req.query.partner_id;
   try {
-    res.json(await db_manager.addPopcorn(name, type, nb_customers, description, partnerID));
+    res.json(await db_manager.addPopcorn(name, type, nb_popcorns_remaining, description, partnerID));
   } catch (err) {
     console.error(`Error while adding this popcorn `, err.message);
     next(err);
@@ -86,13 +86,13 @@ router.get('/add_customer', async function(req, res) {
   }
 });
 
-// Reset nb_customer increment
-router.get('/reset_nb_customer', async function(req, res) {
+// Reset nb_remaining increment
+router.get('/reset_nb_remaining', async function(req, res) {
   var popcornID = req.query.popcorn_id;
   try {
-    res.json(await db_manager.resetNbCustomers(popcornID));
+    res.json(await db_manager.resetNbRemaining(popcornID));
   } catch (err) {
-    console.error('Error while resetting the nb_customer of this popcorn  :'+ popcornID, err.message);
+    console.error('Error while resetting the nb_remaining of this popcorn  :'+ popcornID, err.message);
     next(err);
   }
 });
