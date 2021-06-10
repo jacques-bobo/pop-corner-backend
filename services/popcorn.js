@@ -49,6 +49,17 @@ async function getPopcornsFromCustomer(customerID){
   }
 }
 
+async function getPopcornsFromCity(city){ 
+  const data = await db.query(
+    "SELECT pop.* FROM partners part JOIN popcorns pop ON part.partnerID = pop.partnerID "+
+    "WHERE part.city = ?",
+    [city]);
+
+  return {
+    data
+  }
+}
+
 async function addPopcorn(name, type, nb_remaining, description, partnerID){ 
   
   const data = await db.query(
@@ -115,6 +126,16 @@ async function resetNbRemaining(popcornID){
   }
 }
 
+async function setNbRemaining(popcornID, nb_popcorns_remaining){ 
+  const data = await db.query(
+    "UPDATE popcorns SET nb_remaining = ? WHERE popcornID = ?",
+    [nb_popcorns_remaining, popcornID] );
+
+  return {
+    data
+  }
+}
+
 async function deletePopCorn(popcornID){ 
   const data = await db.query(
     "DELETE FROM `popcorns` WHERE `popcorns`.`popcornID` = ?",
@@ -168,5 +189,6 @@ module.exports = {
   deletePopCorn,
   addCustomer,
   getPopcornsFromCustomer,
-  resetNbRemaining
+  setNbRemaining,
+  getPopcornsFromCity
 }

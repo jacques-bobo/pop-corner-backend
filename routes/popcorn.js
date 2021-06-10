@@ -47,6 +47,17 @@ router.get('/get_from_customer', async function(req, res) {
   }
 });
 
+// Get popcorns from city
+router.get('/get_from_city', async function(req, res) {
+  var city = req.query.city;
+  try {
+    res.json(await db_manager.getPopcornsFromCity(city));
+  } catch (err) {
+    console.error(`Error while getting these popcorns from city `+ city, err.message);
+    next(err);
+  }
+});
+
 
 // Add popcorn
 router.get('/add', async function(req, res) {
@@ -86,13 +97,14 @@ router.get('/add_customer', async function(req, res) {
   }
 });
 
-// Reset nb_remaining increment
-router.get('/reset_nb_remaining', async function(req, res) {
+// Set nb_remaining popcorns
+router.get('/set_nb_remaining', async function(req, res) {
   var popcornID = req.query.popcorn_id;
+  var nb_popcorns_remaining = req.query.nb_popcorns_remaining;
   try {
-    res.json(await db_manager.resetNbRemaining(popcornID));
+    res.json(await db_manager.setNbRemaining(popcornID, nb_popcorns_remaining));
   } catch (err) {
-    console.error('Error while resetting the nb_remaining of this popcorn  :'+ popcornID, err.message);
+    console.error('Error while setting nb_remaining= '+ nb_popcorns_remaining +' of popcorn n°'+ popcornID, err.message);
     next(err);
   }
 });

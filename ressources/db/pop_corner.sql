@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 10 juin 2021 à 22:26
+-- Généré le :  jeu. 10 juin 2021 à 23:19
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `city` int(11) NOT NULL,
   `vegetarian` tinyint(1) NOT NULL,
   PRIMARY KEY (`customerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `customers`
@@ -48,7 +48,8 @@ INSERT INTO `customers` (`customerID`, `username`, `email`, `password`, `city`, 
 (2, 'paul', 'test@gmail.com', '1234', 92190, 0),
 (3, 'luc', 'bob@gmail.com', '1234', 44000, 0),
 (4, 'jaco', 'jacquesbonnand@jl.fr', '1234', 92190, 0),
-(5, 'francois', 'jac@do.fr', '1234', 75015, 1);
+(5, 'francois', 'jac@do.fr', '1234', 75015, 1),
+(6, 'francois', 'jac@do.fr', '1234', 75015, 1);
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `customer_popcorn` (
   PRIMARY KEY (`id`),
   KEY `customer_midle` (`customerID`),
   KEY `midle_popcorn` (`popcornID`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `customer_popcorn`
@@ -73,7 +74,8 @@ CREATE TABLE IF NOT EXISTS `customer_popcorn` (
 INSERT INTO `customer_popcorn` (`customerID`, `popcornID`, `id`) VALUES
 (1, 16, 18),
 (4, 16, 19),
-(1, 17, 31);
+(1, 17, 31),
+(1, 18, 33);
 
 -- --------------------------------------------------------
 
@@ -89,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `partners` (
   `password` text COLLATE utf8_bin NOT NULL,
   `city` int(11) NOT NULL,
   PRIMARY KEY (`partnerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `partners`
@@ -98,7 +100,8 @@ CREATE TABLE IF NOT EXISTS `partners` (
 INSERT INTO `partners` (`partnerID`, `username`, `email`, `password`, `city`) VALUES
 (1, 'Au bon petit pain', 'jacquesbonnand92@gmail.com', '1234', 92190),
 (2, 'Kebab 15e', 'kab@gmail.com', '1234', 75015),
-(3, 'Boulangerie Jaco', 'bolange@yahoo.fr', '1234', 92190);
+(3, 'Boulangerie Jaco', 'bolange@yahoo.fr', '1234', 92190),
+(4, 'Boulangerie Jaco 2', 'bolange2@yahoo.fr', '1234', 92190);
 
 -- --------------------------------------------------------
 
@@ -116,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `popcorns` (
   `partnerID` int(11) NOT NULL,
   PRIMARY KEY (`popcornID`),
   KEY `partner_popcorn` (`partnerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `popcorns`
@@ -126,7 +129,8 @@ INSERT INTO `popcorns` (`popcornID`, `name`, `type`, `nb_remaining`, `descriptio
 (1, 'free food', 'vegetarian', 0, 'free meal for everyone', 2),
 (15, 'New tacos king gratuit !!', 'tacos', 0, 'This is a new free tacos offer for the first 10 persons to come to our shop !', 1),
 (16, 'New tacos king gratuit !!', 'tacos', 2, 'This is a new free tacos offer for the first 10 persons to come to our shop !', 1),
-(17, '\"New tacos king gratuit !!\"', '\"tacos\"', 5, '\"This is a new free tacos offer for the first 10 persons to come to our shop !\"', 1);
+(17, '\"New tacos king gratuit !!\"', '\"tacos\"', 8, '\"This is a new free tacos offer for the first 10 persons to come to our shop !\"', 1),
+(18, '\"Free Baguette and Croissants !\"', '\"boulangerie\"', 13, '\"New baguette for you and croissants !\"', 3);
 
 --
 -- Contraintes pour les tables déchargées
