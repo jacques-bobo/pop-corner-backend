@@ -35,13 +35,46 @@ Either dowload it directly, or pull it from git
 npm install
 ```
 
-## 6) Run the node server
+## 6) Créer les variables globales pour l’adresse mail et le mot de passe utilisés pour l’envoi de mails
+### WARNING : the email adress and the password are not specified in this document for security reasons, you will find it in the report, or ask Jacques Bonnand (jacques.bonnand@eleve.isep.fr) for them.
+
+### Windows 
+- Open a command prompt
+- Enter the two following commande lines and replace email et password with the real ones.
+```
+setx POP_CORNER_MAIL_ADRESS "email"
+setx POP_CORNER_MAIL_PASSWORD "password"
+```
+### Mac OS
+Permanent environment variables are added to the .bash_profile file:
+Open a terminal with admin-level privileges
+1.	 Find the path to .bash_profile by using:
+   ```
+   ~/.bash-profile
+   ```
+2.	Open the .bash_profile file with a text editor of your choice.
+3.	Scroll down to the end of the .bash_profile file.
+4.	Use the export command to add the new environment variables  and replace email et password with the real ones:
+```
+export POP_CORNER_MAIL_ADRESS = "email"
+export POP_CORNER_MAIL_PASSWORD = "password"
+```
+5.	Save any changes you made to the .bash_profile file.
+6.	Execute the new .bash_profile by either restarting the terminal window or using:
+```
+source ~/.bash-profile
+```
+
+
+
+
+## 7) Run the node server
 - Start the node server with this command :
 ```
 node index.js
 ```
 
-## 7) Access and test the API
+## 8) Access and test the API
 - url : http://localhost:3000/
 
 ## API Documentation :
