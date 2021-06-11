@@ -17,10 +17,11 @@ function getOffset(currentPage = 1, listPerPage) {
     var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'popcorner.offers@gmail.com',
-        pass: 'PopcornerFightClub'
+        user: process.env.POP_CORNER_MAIL_ADRESS ,
+        pass: process.env.POP_CORNER_MAIL_PASSWORD
     }
     });
+
 
     var mailOptions = {
     from: 'popcorner.offers@gmail.com',
