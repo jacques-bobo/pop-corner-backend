@@ -20,7 +20,10 @@ async function getMultiple(page = 1){
 
 async function getPopcornFromID(popcornID){ 
   const data = await db.query(
-    `SELECT * FROM popcorns WHERE popcornID = ?`,
+    "SELECT p.popcornID, p.name, p.type, p.nb_remaining, p.description, p.partnerID, part.username, part.email, part.city "+
+    "FROM popcorns p "+
+    "INNER JOIN partners part ON p.partnerID = part.partnerID "+
+    "WHERE p.popcornID = ?",
     [popcornID] );
 
   return {
@@ -30,7 +33,10 @@ async function getPopcornFromID(popcornID){
 
 async function getPopcornsFromPartnerID(partnerID){ 
   const data = await db.query(
-    "SELECT * FROM popcorns WHERE partnerID = ?",
+    "SELECT p.popcornID, p.name, p.type, p.nb_remaining, p.description, p.partnerID, part.username, part.email, part.city "+
+    "FROM popcorns p "+
+    "INNER JOIN partners part ON p.partnerID = part.partnerID "+
+    "WHERE p.partnerID = ?",
     [partnerID] );
 
   return {
@@ -40,8 +46,11 @@ async function getPopcornsFromPartnerID(partnerID){
 
 async function getPopcornsFromCustomer(customerID){ 
   const data = await db.query(
-    "SELECT p.* FROM customer_popcorn cp JOIN popcorns p ON cp.popcornID = p.popcornID "+
-    "WHERE cp.customerID = ?",
+    "SELECT cus.customerID, p.popcornID, p.name, p.type, p.nb_remaining, p.description, p.partnerID, cus.username, cus.email, cus.city, cus.vegetarian "+
+    "FROM customer_popcorn cp "+
+    "INNER JOIN popcorns p ON cp.popcornID = p.popcornID "+
+    "INNER JOIN customers cus ON cp.customerID = cus.customerID"+
+    " WHERE cp.customerID = ?",
     [customerID]);
 
   return {
@@ -51,7 +60,9 @@ async function getPopcornsFromCustomer(customerID){
 
 async function getPopcornsFromCity(city){ 
   const data = await db.query(
-    "SELECT pop.* FROM partners part JOIN popcorns pop ON part.partnerID = pop.partnerID "+
+    "SELECT p.popcornID, p.name, p.type, p.nb_remaining, p.description, p.partnerID, part.username, part.email, part.city "+
+    "FROM popcorns p "+
+    "INNER JOIN partners part ON p.partnerID = part.partnerID "+
     "WHERE part.city = ?",
     [city]);
 
