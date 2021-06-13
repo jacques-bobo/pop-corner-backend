@@ -1,14 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 const customerRouter = require('./routes/customer');
 const popcornRouter = require('./routes/popcorn');
 const partnerRouter = require('./routes/partner');
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );

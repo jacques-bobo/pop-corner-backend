@@ -46,7 +46,21 @@ router.get('/insert', async function(req, res) {
   try {
     res.json(await db_manager.insertCustomer(username, email, password, city, vegetarian));
   } catch (err) {
-    console.error(`Error while getting these customers `, err.message);
+    console.error(`Error while adding this customers `, err.message);
+    next(err);
+  }
+});
+
+router.post('/insert', async function(req, res) {
+  var username = req.body.username;
+  var email = req.body.email;
+  var password = req.body.password;
+  var city = req.body.city;
+  var vegetarian = req.body.vegetarian;
+  try {
+    res.json(await db_manager.insertCustomer(username, email, password, city, vegetarian));
+  } catch (err) {
+    console.error(`Error while adding this customers `, err.message);
     next(err);
   }
 });
