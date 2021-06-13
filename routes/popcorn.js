@@ -1,12 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db_manager = require('../services/popcorn');
-
-
+const db_manager = require("../services/popcorn");
 
 /* GET popcorns */
-router.get('/getall/', async function(req, res) {
+router.get("/getall/", async function (req, res) {
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(await db_manager.getMultiple(req.query.page));
   } catch (err) {
     console.error(`Error while getting popcorns `, err.message);
@@ -15,9 +14,10 @@ router.get('/getall/', async function(req, res) {
 });
 
 // Get popcorn from id
-router.get('/', async function(req, res) {
+router.get("/", async function (req, res) {
   var popcornID = req.query.id;
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(await db_manager.getPopcornFromID(popcornID));
   } catch (err) {
     console.error(`Error while getting this popcorn `, err.message);
@@ -26,9 +26,10 @@ router.get('/', async function(req, res) {
 });
 
 // Get popcorns from partnerID
-router.get('/get_from_partner', async function(req, res) {
+router.get("/get_from_partner", async function (req, res) {
   var partnerID = req.query.id;
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(await db_manager.getPopcornsFromPartnerID(partnerID));
   } catch (err) {
     console.error(`Error while getting these popcorns `, err.message);
@@ -37,9 +38,10 @@ router.get('/get_from_partner', async function(req, res) {
 });
 
 // Get popcorns from customerID
-router.get('/get_from_customer', async function(req, res) {
+router.get("/get_from_customer", async function (req, res) {
   var customerID = req.query.customer_id;
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(await db_manager.getPopcornsFromCustomer(customerID));
   } catch (err) {
     console.error(`Error while getting these popcorns `, err.message);
@@ -48,26 +50,37 @@ router.get('/get_from_customer', async function(req, res) {
 });
 
 // Get popcorns from city
-router.get('/get_from_city', async function(req, res) {
+router.get("/get_from_city", async function (req, res) {
   var city = req.query.city;
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(await db_manager.getPopcornsFromCity(city));
   } catch (err) {
-    console.error(`Error while getting these popcorns from city `+ city, err.message);
+    console.error(
+      `Error while getting these popcorns from city ` + city,
+      err.message
+    );
     next(err);
   }
 });
 
-
 // Add popcorn
-router.get('/add', async function(req, res) {
+router.get("/add", async function (req, res) {
   var name = req.query.name;
   var type = req.query.type;
   var nb_popcorns_remaining = req.query.nb_popcorns_remaining;
-  var description = req.query.description;  
+  var description = req.query.description;
   var partnerID = req.query.partner_id;
   try {
-    res.json(await db_manager.addPopcorn(name, type, nb_popcorns_remaining, description, partnerID));
+    res.json(
+      await db_manager.addPopcorn(
+        name,
+        type,
+        nb_popcorns_remaining,
+        description,
+        partnerID
+      )
+    );
   } catch (err) {
     console.error(`Error while adding this popcorn `, err.message);
     next(err);
@@ -75,7 +88,7 @@ router.get('/add', async function(req, res) {
 });
 
 // Delete popcorn
-router.get('/delete', async function(req, res) {
+router.get("/delete", async function (req, res) {
   var popcornID = req.query.popcorn_id;
   try {
     res.json(await db_manager.deletePopCorn(popcornID));
@@ -86,29 +99,38 @@ router.get('/delete', async function(req, res) {
 });
 
 // Add customer to a popcorn
-router.get('/add_customer', async function(req, res) {
-  var customerID = req.query.customer_id
+router.get("/add_customer", async function (req, res) {
+  var customerID = req.query.customer_id;
   var popcornID = req.query.popcorn_id;
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(await db_manager.addCustomer(customerID, popcornID));
   } catch (err) {
-    console.error('Error while adding : '+ customerID + ' to this popcorn  :'+ popcornID, err.message);
+    console.error(
+      "Error while adding : " + customerID + " to this popcorn  :" + popcornID,
+      err.message
+    );
     next(err);
   }
 });
 
 // Set nb_remaining popcorns
-router.get('/set_nb_remaining', async function(req, res) {
+router.get("/set_nb_remaining", async function (req, res) {
   var popcornID = req.query.popcorn_id;
   var nb_popcorns_remaining = req.query.nb_popcorns_remaining;
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(await db_manager.setNbRemaining(popcornID, nb_popcorns_remaining));
   } catch (err) {
-    console.error('Error while setting nb_remaining= '+ nb_popcorns_remaining +' of popcorn n°'+ popcornID, err.message);
+    console.error(
+      "Error while setting nb_remaining= " +
+        nb_popcorns_remaining +
+        " of popcorn n°" +
+        popcornID,
+      err.message
+    );
     next(err);
   }
 });
-
-
 
 module.exports = router;
